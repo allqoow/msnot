@@ -63,7 +63,7 @@ class senBuilder():
 			rawPartialTrans = str(elementResult.text)
 			if self.cache0 == rawPartialTrans:
 				rawPartialTrans = ''
-			print 'wainting for result'
+			print 'waiting for result'
 		self.cache0 = rawPartialTrans
 		print rawPartialTrans
 		print '\n'

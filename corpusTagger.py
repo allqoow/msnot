@@ -6,7 +6,6 @@
 # Started on: 20160624(yyyymmdd)
 # Project	: msnot
 
-
 class corpusTagger:
 	"""
 	=== Module for Stage 2 ===
@@ -31,6 +30,13 @@ class corpusTagger:
 			
 			# taggedSen
 			b = Komoran.pos(x)
+			self.taggedSenList.append(b)
+
+	def taggingWithKkma(self):
+		from konlpy.tag import Kkma
+		Kkma = Kkma()
+		for x in self.rawSenList:
+			b = Kkma.pos(x)
 			self.taggedSenList.append(b)
 
 	def taggingWithUCorpus(self):

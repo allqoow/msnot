@@ -48,3 +48,5 @@ for x in cc[1].split(' '):
 	print x
 print aliasMapping
 '''
+# 법령정보사이트
+# KISS

@@ -18,12 +18,25 @@
 # (Resetting the chararcter setting for unicode issue)
 # 3. 웹에서 들어오는 요청(시스템인자, sys.argv)을 python프로그램에서 받습니다. 
 #    (지금은 주석이 달려있고 아래 코드로 대체)
-import re, sys
+import json, re, sys, time
+import _mysql, msnotconfig
+t0 = time.time()
 reload(sys)
 sys.setdefaultencoding('utf-8')
-#userInput = sys.argv[1]
-userInput = str('신청마감시간에 임박하면 온라인접속이 폭주합니다.') 
-#userInput = str('시험이 어려우면 자살율이 증가한다.')
+
+print sys.path
+#sys.path.append("/python27/dist-packages/selenium/webdriver/phantomjs/")
+print '<br>'
+#print sys.argv[1]
+userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고, 머리를 다쳤다.')
+userInput = str('아버지가 한결 더 예쁘고^ 자랑스럽게^ 느껴졌습니다.')
+userInput = str('번역기를 만드는 일이 이렇게 더러운 줄은 몰랐다.')
+
+host = msnotconfig.host
+user = msnotconfig.user
+password = msnotconfig.password
+dbname = msnotconfig.dbname
+db = _mysql.connect(host,user,password,dbname)
 ###################################################################
 
 
@@ -45,7 +58,7 @@ sanitiser = sanitiser(userInput)
 rawSenList = sanitiser.rawSenList
 ###################################################################
 print rawSenList
-
+print '<br>[Stage 1 finished: ' + str(time.time()-t0) + 's]<br>'
 
 
 ###################################################################
@@ -58,13 +71,17 @@ print rawSenList
 #		Stage 3에서 "특별한명사"들의 태깅을 수정할 때 필요합니다.
 #		Stage 4에서 목표언어(현재로서는 영어)재구성 계획(scheme)을 만드는 데 필요합니다.
 # ejlisedSenList:
+#		Stage 4에서 목표언어(현재로서는 영어)재구성 계획(scheme)을 만드는 데 필요합니다.
 #		Stage 5에서 목표언어로 재구성 할 때 필요합니다.
 from corpusTagger import corpusTagger
 corpusTagger = corpusTagger(rawSenList)
 corpusTagger.taggingWithKomoran()
 taggedSenList = corpusTagger.taggedSenList
+#corpusTagger.taggingWithKkma()
+#taggedSenList = corpusTagger.taggedSenList
 ejlisedSenList = corpusTagger.ejlisedSenList
 ###################################################################
+print '<br>[Stage 2 finished: ' + str(time.time()-t0) + 's]<br>'
 for x in taggedSenList:
 	for y in x:
 		print y[0] + ' ' + y[1] + '    ',
@@ -82,8 +99,9 @@ print '\n'
 # 자세한 설명은 ...subsLibBased/__init__.py, subsWebBased/__init__.py 참조
 #
 # 고유명사 또는 신경써서 번역할 단어들에 대한 alias붙이기 및 태그 재구성입니다.
-# 1. DB/웹검색 친화적인 형태로 corpus들을 재조합합니다.
-# 2. 우선 자체DB에서 검색하고 치환합니다.
+# 2. 우선 자체DB에서 검색하고 치환합니다. V(금방 되겠네요 ㅋㅋㅋㅋ)
+#
+# 1. 웹검색 친화적인 형태로 corpus들을 재조합합니다.
 # 3. 그 다음 웹에서 검색하고 치환합니다.
 # 지속적인 개선이 필요한 1번째 부분입니다.
 # 웹검색이 필요하므로 selenium의 driver객체를 여기서 호출합니다.
@@ -93,17 +111,24 @@ from subsLibBased import subsLibBased
 subsLibBased()
 partialTransListExt = []
 
-
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-#driver = webdriver.Firefox()
-driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
-driver = webdriver.PhantomJS()  
-#driver.implicitly_wait(10)
-from subsWebBased import subsWebBased
-subsWebBased(driver)
-partialTransListExt = []
+try:
+	import selenium
+	from selenium import webdriver
+	from selenium.webdriver.common.keys import Keys
+	#driver = webdriver.Firefox()
+	driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
+	#driver = webdriver.PhantomJS()  
+	#driver.implicitly_wait(10)
+	from subsWebBased import subsWebBased
+	subsWebBased(driver)
+	partialTransListExt = []
+except selenium.common.exceptions.WebDriverException as e:
+	print '<br><br>'
+	#print dir(e)
+	print e.msg
+	print '<br><br>'
 ###################################################################
+print '<br>[Stage 3 finished: ' + str(time.time()-t0) + 's]<br>'
 
 
 
@@ -123,15 +148,17 @@ partialTransListExt = []
 # (treeList각 원소의) schemeList:
 #		Stage 5에서 목표언어로 재구성 할 때 필요합니다.
 from treeGen import treeGen
-senInfos = zip(rawSenList, taggedSenList)
+print ejlisedSenList
+print taggedSenList
+senInfos = zip(ejlisedSenList, taggedSenList)
 treeList = []
 for x in senInfos:
-	aTree = treeGen(x[0], x[1])
+	aTree = treeGen(x[0], x[1],db)
 	treeList.append(aTree)
 ###################################################################
+print '<br>[Stage 4 finished: ' + str(time.time()-t0) + 's]<br>'
 
-
-
+"""
 ###################################################################
 # Stage 5 : senBuilder
 ###################################################################
@@ -145,13 +172,16 @@ for i in range(len(ejlisedSenList)):
 	senBuilt = senBuilder(driver, ejlisedSenList[i], treeList[i].schemeList, partialTransListExt)
 	outputList.append(senBuilt.finalOutput)
 ###################################################################
-
+print '<br>[Stage 5 finished: ' + str(time.time()-t0) + 's]<br>'
 
 
 # Wrap-up
 driver.close()
+driver.quit()
 for x in outputList:
 	print x
 print '\n'
 print 'Successfully translated!'
+print '<br>[Translation finished: ' + str(time.time()-t0) + 's]<br>'
 #print result
+"""
