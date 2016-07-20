@@ -11,6 +11,7 @@ class treeGen():
 		self.case = 0
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
+		self.db = db
 
 		self.treekeyList = []
 		self.schemeList = []
@@ -96,107 +97,251 @@ class treeGen():
 		
 		#for x in self.treekeyList:
 		#	aa = localTagSeq[:x+1]
-		x = 9
+		x = 21
 		aa = localTagSeq[:x+1]
 		print aa
 
 		# Stage _tt
 		# assistant variables
-		queryPart = ''
-		#memory0 = ''
-		memory1 = ''
+		queryPart0 = ''
+		queryPart1 = ''
+		memory0 = []
+		#memory1 = ''
 		adjust0 = 0
-		indexStart = x
-		indexEnd = x
+		indexStart = len(aa)
+		indexEnd = len(aa)
 		tagToCmpnt = []
 		stepbwd = 0
-		searchNeedTt = True
+		#searchNeedTt = True
 		listExhaust = False
-		while searchNeedTt:			
-			sqlQuery = "SELECT * FROM patterns_tt WHERE"
-			if queryPart == '':
-				queryPart = queryPart + " sub" + str(stepbwd) + "=\'/" + aa[-(stepbwd+1)] + "\'"
+		while listExhaust == False:			
+			sqlQueryCommon = "SELECT * FROM patterns_tt WHERE"
+			queryPart1End = "=\'\' and patsuper NOT IN ('S','S_MOD','S_SBJ') ORDER BY freq DESC"
+			if queryPart0 == '':
+				queryPart0 = queryPart0 + " sub" + str(stepbwd) + "=\'/" + aa[-(stepbwd+adjust0+1)] + "\'"
+				#queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + "=\'\' ORDER BY freq DESC"
+				queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + queryPart1End
 			else:
 				try:
-					queryPart = queryPart + " and sub" + str(stepbwd) + "=\'/" + aa[-(stepbwd+1)] + "\'"
+					queryPart0 = queryPart0 + " and sub" + str(stepbwd) + "=\'/" + aa[-(stepbwd+adjust0+1)] + "\'"
+					#queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + "=\'\' ORDER BY freq DESC"
+					queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + queryPart1End
 				except IndexError:
-					queryPart = queryPart + " and sub" + str(stepbwd) + "=\'\'"
-					#queryPart = " sub0=\'INVALID\'"
 					listExhaust = True
+				#	queryPart0 = queryPart0 + " and sub" + str(stepbwd) + "=\'\'"
+				#	#queryPart0 = " sub0=\'INVALID\'"
+				#	listExhaust = True
 
-			sqlQuery = sqlQuery + queryPart
-			print sqlQuery
-			db.query(sqlQuery)
-			r = db.store_result()
-			fetchedRow = r.fetch_row()
-			print fetchedRow
-
-			if len(fetchedRow) > 0:
-				#memory0 = memory0 + "/" + aa[-(i+1)] + " "
-				memory1 = fetchedRow[0][3]
-				stepbwd += 1
-
-			elif listExhaust == True:
-				indexStart = x - stepbwd - adjust0
-				##print aa
-				##print aa[indexStart+1:indexEnd+1]
-				tagToCmpnt.insert(0,[indexStart+1, indexEnd+1,memory1])
-				aa[indexStart+1:indexEnd+1] = []
-				cddList = []
-				print fetchedRow
-				cddList.append(fetchedRow[0][:3])
-				while fetchedRow:
-					fetchedRow = r.fetch_row()
-				print cddList
-				# resetting some assistant variables
-				##print aa
-				##print tagToCmpnt
-				
-
-				searchNeedTt = False
-
-			elif len(fetchedRow) == 0:# or len(aa) == 0:
-				#if True:
-				#print "_________________________________"
-				
-				indexStart = x - stepbwd - adjust0
-				##print aa
-				##print aa[indexStart+1:indexEnd+1]
-				tagToCmpnt.insert(0,[indexStart+1, indexEnd+1,memory1])
-				aa[indexStart+1:indexEnd+1] = []
-				
-
-				# resetting some assistant variables
-				##print aa
-				##print tagToCmpnt
-				queryPart = ''
-				adjust0 += stepbwd
-				indexEnd = indexStart
-				stepbwd = 0
-				#print "_________________________________"
-				##print queryPart					
+			sqlQuery0 = sqlQueryCommon + queryPart0
+			sqlQuery1 = sqlQueryCommon + queryPart1
+			print sqlQuery0
+			print sqlQuery1
+			
+			self.db.query(sqlQuery0)
+			result0 = self.db.store_result()
+			numRows0 = result0.num_rows()
+			print numRows0
+			self.db.query(sqlQuery1)
+			result1 = self.db.store_result()
+			numRows1 = result1.num_rows()
+			print numRows1
 
 			
+			# condition list exhastion (& rollback?)
+			if listExhaust == True:# and numRows0 > 0
+				print '_______condition list exhaustion_______'		
+				tagToCmpnt.insert(0,[indexStart, indexEnd, memory0[0][0]])
+				print tagToCmpnt
+				#print indexStart, ' ', indexEnd, ' ', adjust0
+				adjust0 = adjust0 + indexEnd - indexStart
+				indexEnd = indexStart
+				queryPart0 = ''
+				queryPart1 = ''
+				stepbwd = 0
+				indexStart -= 1
+				#print indexStart, ' ', indexEnd, ' ', adjust0, ' ', str(stepbwd+adjust0)
+				print '__________________________________________'				
 
+			# condition for rollback
+			elif numRows1 == 0:#numRows0 > 0 and 
+				sqlQuery2 = sqlQuery0 + " and sub" + str(stepbwd+1) + "=\'/" + aa[-(stepbwd+adjust0+2)] + "\'"
+				print sqlQuery2
+				self.db.query(sqlQuery2)
+				result2 = self.db.store_result()
+				numRows2 = result2.num_rows()
+				print numRows2
+				if numRows2 == 0:
+					print '_______condition for rollback_______'
+					tagToCmpnt.insert(0,[indexStart, indexEnd, memory0[0][0]])
+					print tagToCmpnt
+					#print indexStart, ' ', indexEnd, ' ', adjust0
+					adjust0 = adjust0 + indexEnd - indexStart
+					indexEnd = indexStart
+					queryPart0 = ''
+					queryPart1 = ''
+					stepbwd = 0
+					#indexStart -= 1
+					#print indexStart, ' ', indexEnd, ' ', adjust0, ' ', str(stepbwd+adjust0)
+					print '__________________________________________'
+				else:
+					print '_______condition for further search_______'
+					memory0 = []
+					fetchedRow = result1.fetch_row()
+					while fetchedRow:					
+						#print fetchedRow
+						memory0.append([fetchedRow[0][3], fetchedRow[0][2]])
+						fetchedRow = result1.fetch_row()				
+					
+					stepbwd += 1
+					indexStart -= 1
+					#print memory0
+					#print '__________________________________________'	
 
-
+			# condition for further search
+			elif numRows0 > 0 and numRows1 > 0:
+				print '_______condition for further search_______'
+				memory0 = []
+				fetchedRow = result1.fetch_row()
+				while fetchedRow:					
+					#print fetchedRow
+					memory0.append([fetchedRow[0][3], fetchedRow[0][2]])
+					fetchedRow = result1.fetch_row()				
+				
+				stepbwd += 1
+				indexStart -= 1
+				#print memory0
+				#print '__________________________________________'		
+			
+		print '__________tagToCmpnt______________________'
 		print tagToCmpnt
-		# Stage _cc
-		bb = [str(item[2]) for item in tagToCmpnt]
-		x = len(bb)
-		print bb
-		print x
-		# assistant variables
-		queryPart = ''
-		memory0 = []
-		memory1 = ''
-		adjust0 = 0
-		indexStart = x
-		indexEnd = x
-		cmpntToCmpnt = []
-		stepbwd = 0
-		listExhaust = False
+		tempList = tagToCmpnt
+		#for y in tempList:
 		
+		# Stage _cc
+		furtherCmpntble = True
+		while furtherCmpntble:
+			print '+++++++++++++++++++++++++++++++++++++++++'
+			print '+++++++++++++++++++++++++++++++++++++++++'
+			print tagToCmpnt
+			bb = [str(item[2]) for item in tagToCmpnt]
+			print bb
+			# assistant variables
+			queryPart0 = ''
+			queryPart1 = ''
+			memory0 = []
+			#memory1 = ''
+			adjust0 = 0
+			indexStart = len(bb)
+			indexEnd = len(bb)
+			cmpntToCmpnt = []
+			stepbwd = 0
+			#searchNeedTt = True
+			listExhaust = False
+			while listExhaust == False:
+				sqlQueryCommon = "SELECT * FROM patterns_cc WHERE"
+				queryPart1End = "=\'\' and patsuper NOT IN ('S','S_MOD','S_SBJ') ORDER BY freq DESC"
+				if queryPart0 == '':
+					queryPart0 = queryPart0 + " sub" + str(stepbwd) + "=\'" + bb[-(stepbwd+adjust0+1)] + "\'"
+					#queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + "=\'\' ORDER BY freq DESC"
+					queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + queryPart1End
+				else:
+					try:
+						queryPart0 = queryPart0 + " and sub" + str(stepbwd) + "=\'" + bb[-(stepbwd+adjust0+1)] + "\'"
+						#queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + "=\'\' ORDER BY freq DESC"
+						queryPart1 = queryPart0 + " and sub" + str(stepbwd+1) + queryPart1End
+					except IndexError:
+						listExhaust = True
+
+				sqlQuery0 = sqlQueryCommon + queryPart0
+				sqlQuery1 = sqlQueryCommon + queryPart1
+				print sqlQuery0
+				print sqlQuery1
+				
+				self.db.query(sqlQuery0)
+				result0 = self.db.store_result()
+				numRows0 = result0.num_rows()
+				print numRows0
+				self.db.query(sqlQuery1)
+				result1 = self.db.store_result()
+				numRows1 = result1.num_rows()
+				print numRows1
+
+				
+				# condition list exhastion (& rollback?)
+				if listExhaust == True:# and numRows0 > 0
+					#print '_______condition list exhaustion_______'
+					if len(memory0) == 0:
+						cmpntToCmpnt.insert(0,[indexStart, indexEnd, bb[-(stepbwd+adjust0)]])
+					else:
+						cmpntToCmpnt.insert(0,[indexStart, indexEnd, memory0[0][0]])
+					#print cmpntToCmpnt
+					#print indexStart, ' ', indexEnd, ' ', adjust0
+					adjust0 = adjust0 + indexEnd - indexStart
+					indexEnd = indexStart
+					queryPart0 = ''
+					queryPart1 = ''
+					stepbwd = 0
+					indexStart -= 1
+					#print indexStart, ' ', indexEnd, ' ', adjust0, ' ', str(stepbwd+adjust0)
+					#print '__________________________________________'				
+					"""
+					# condition for rollback
+					elif numRows1 == 0 and numRows0 > 0
+						print '_______condition for rollback_______'
+						cmpntToCmpnt.insert(0,[indexStart, indexEnd, memory0[0][0]])
+						print cmpntToCmpnt
+						print indexStart, ' ', indexEnd, ' ', adjust0
+						adjust0 = adjust0 + indexEnd - indexStart
+						indexEnd = indexStart
+						queryPart0 = ''
+						queryPart1 = ''
+						stepbwd = 0
+						#indexStart -= 1
+						print indexStart, ' ', indexEnd, ' ', adjust0, ' ', str(stepbwd+adjust0)
+						print '__________________________________________'
+					"""
+				elif numRows1 == 0:# and numRows0 > 0
+					#print '_______condition for rollback_______'
+					cmpntToCmpnt.insert(0,[indexStart, indexEnd, memory0[0][0]])
+					#print cmpntToCmpnt
+					#print indexStart, ' ', indexEnd, ' ', adjust0
+					adjust0 = adjust0 + indexEnd - indexStart
+					indexEnd = indexStart
+					queryPart0 = ''
+					queryPart1 = ''
+					stepbwd = 0
+					#indexStart -= 1
+					#print indexStart, ' ', indexEnd, ' ', adjust0, ' ', str(stepbwd+adjust0)
+					#print '__________________________________________'
+
+				# condition for further search
+				elif numRows0 > 0 and numRows1 > 0:
+					#print '_______condition for further search_______'
+					memory0 = []
+					fetchedRow = result1.fetch_row()
+					while fetchedRow:					
+						#if fetchedRow[0][3] not in ['S','S_MOD', 'S_SBJ']:
+						memory0.append([fetchedRow[0][3], fetchedRow[0][2]])
+						fetchedRow = result1.fetch_row()
+
+					stepbwd += 1
+					indexStart -= 1
+					#print memory0
+					#print '__________________________________________'
+			print '________cmpntToCmpnt______________________'
+			print cmpntToCmpnt
+			#countV = 0
+			#for y in cmpntToCmpnt:
+			#	if y in ["VP","VP_AJT","VP_CMP","VP_MOD","VNP","VNP_AJT","VNP_CMP","VNP_MOD"]:
+			#		countV += 1
+			#if countV == 1:
+			furtherCmpntble = False
+			tagToCmpnt = cmpntToCmpnt
+
+
+
+
+		"""
 		searchNeedCc = True
 		searchNeedCc1 = True
 		while searchNeedCc:
@@ -216,8 +361,8 @@ class treeGen():
 			sqlQuery = sqlQuery + queryPart
 			print sqlQuery
 			memory0.append(sqlQuery)
-			db.query(sqlQuery)
-			r = db.store_result()
+			self.db.query(sqlQuery)
+			r = self.db.store_result()
 			fetchedRow = r.fetch_row()
 			print fetchedRow
 
@@ -229,8 +374,8 @@ class treeGen():
 					stepbwd -= 1
 					sqlQuery = memory0.pop() + " and sub" + str(stepbwd + 1) + "=\'\'"
 					print sqlQuery
-					db.query(sqlQuery)
-					r = db.store_result()
+					self.db.query(sqlQuery)
+					r = self.db.store_result()
 					fetchedRow = True
 					while fetchedRow:
 						fetchedRow = r.fetch_row()
@@ -271,7 +416,7 @@ class treeGen():
 			elif len(fetchedRow) > 0:
 				memory1 = fetchedRow[0][3]
 				stepbwd += 1
-			
+		"""
 
 		# Stage 5-1: 대등절 나누기,
 		# Case 0
@@ -328,14 +473,6 @@ class treeGen():
 		# case 0 문장을 ec로 끊어도 ㅁ문제거 없는 경우
 		#if self.tagSeq.count('VX') == 0:
 		#from case
-		"""
-			if:
-				pass
-				if asdfasdfa
-				sdf
-				asdf:
-				pass
-		"""
 		##	self.case = 0
 		#else:
 		#	self.case = 10
@@ -351,13 +488,15 @@ class treeGen():
 		#	self.case = 0
 		#else:
 		#	self.case = 1
+"""
 import _mysql
 host = "allqoow001.cmfmq9ntkqns.ap-northeast-1.rds.amazonaws.com"
 user = "allqoow"
 password = "dhshsaes"
-dbname = "msnotproto"
-db = _mysql.connect(host,user,password,dbname)
+self.dbname = "msnotproto"
+self.db = _mysql.connect(host,user,password,dbname)
 
 bbbb = [['\xeb\x82\x98\xeb\x8a\x94', [0, 2]], ['\xec\x96\xb4\xec\xa0\x9c', [2, 3]], ['\xeb\x84\x88\xea\xb0\x80', [3, 5]], ['\xec\x86\x8c\xea\xb0\x9c\xec\x8b\x9c\xec\xbc\x9c\xec\xa4\x80', [5, 10]], ['\xec\x8b\x9d\xeb\x8b\xb9\xec\x97\x90\xec\x84\x9c', [10, 12]], ['\xeb\xb0\xa5\xec\x9d\x84', [12, 14]], ['\xeb\xa8\xb9\xeb\x8b\xa4\xea\xb0\x80', [14, 16]], ['\xeb\xb0\x94\xeb\x8b\xa5\xec\x97\x90', [16, 18]], ['\xec\x93\xb0\xeb\x9f\xac\xec\xa1\x8c\xeb\x8b\xa4.', [18, 22]]]
 aaaa = [(u'\ub098', u'NP'), (u'\ub294', u'JX'), (u'\uc5b4\uc81c', u'MAG'), (u'\ub108', u'NP'), (u'\uac00', u'JKS'), (u'\uc18c\uac1c', u'NNG'), (u'\uc2dc\ud0a4', u'XSV'), (u'\uc5b4', u'EC'), (u'\uc8fc', u'VX'), (u'\u3134', u'ETM'), (u'\uc2dd\ub2f9', u'NNG'), (u'\uc5d0\uc11c', u'JKB'), (u'\ubc25', u'NNG'), (u'\uc744', u'JKO'), (u'\uba39', u'VV'), (u'\ub2e4\uac00', u'EC'), (u'\ubc14\ub2e5', u'NNG'), (u'\uc5d0', u'JKB'), (u'\uc4f0\ub7ec\uc9c0', u'VV'), (u'\uc5c8', u'EP'), (u'\ub2e4', u'EF'), (u'.', u'SF')]
 aTree = treeGen(bbbb,aaaa,db)
+"""

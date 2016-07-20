@@ -28,9 +28,9 @@ print sys.path
 #sys.path.append("/python27/dist-packages/selenium/webdriver/phantomjs/")
 print '<br>'
 #print sys.argv[1]
-userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고, 머리를 다쳤다.')
-userInput = str('아버지가 한결 더 예쁘고^ 자랑스럽게^ 느껴졌습니다.')
-userInput = str('번역기를 만드는 일이 이렇게 더러운 줄은 몰랐다.')
+userInput = str('지나간 것은 지나간 대로 그런 의미가 있습니다.')
+#userInput = str('아버지가 한결 더 예쁘고^ 자랑스럽게^ 느껴졌습니다.')
+#userInput = str('번역기를 만드는 일이 이렇게 더러운 줄은 몰랐다.')
 
 host = msnotconfig.host
 user = msnotconfig.user
@@ -153,6 +153,8 @@ print taggedSenList
 senInfos = zip(ejlisedSenList, taggedSenList)
 treeList = []
 for x in senInfos:
+	print x[0]
+	print x[1]
 	aTree = treeGen(x[0], x[1],db)
 	treeList.append(aTree)
 ###################################################################
