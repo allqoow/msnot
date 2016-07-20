@@ -28,9 +28,9 @@ print sys.path
 #sys.path.append("/python27/dist-packages/selenium/webdriver/phantomjs/")
 print '<br>'
 #print sys.argv[1]
-userInput = str('지나간 것은 지나간 대로 그런 의미가 있습니다.')
+#userInput = str('지나간 것은 지나간 대로 그런 의미가 있습니다.')
 #userInput = str('아버지가 한결 더 예쁘고^ 자랑스럽게^ 느껴졌습니다.')
-#userInput = str('번역기를 만드는 일이 이렇게 더러운 줄은 몰랐다.')
+userInput = str('사람이 하늘에서 떨어지면 대부분 죽는다.')
 
 host = msnotconfig.host
 user = msnotconfig.user
