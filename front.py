@@ -25,12 +25,13 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #print sys.path
-#sys.path.append("/python27/dist-packages/selenium/webdriver/phantomjs/")
-print '<br>'
 #print sys.argv[1]
 #userInput = str('지나간 것은 지나간 대로 그런 의미가 있습니다.')
-userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고, 머리를 다쳤다.')
+userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고 머리를 다쳤다.')
+#userInput = str('나는 너를 때리고 철수는 영희를 찼고 명수는 걔를 죽였다.')
 #userInput = str('사람이 하늘에서 떨어지면 대부분 죽는다.')
+userInput = str('드디어 연극계에도 할 일이 오고 있다.')
+#userInput = str('드디어 연극계에도 올 것이 오고 있다.')
 
 host = msnotconfig.host
 user = msnotconfig.user
@@ -57,7 +58,7 @@ from sanitiser import sanitiser
 sanitiser = sanitiser(userInput)
 rawSenList = sanitiser.rawSenList
 ###################################################################
-print rawSenList
+#print rawSenList
 print '<br>[Stage 1 finished: ' + str(time.time()-t0) + 's]<br>'
 
 
@@ -82,14 +83,14 @@ taggedSenList = corpusTagger.taggedSenList
 ejlisedSenList = corpusTagger.ejlisedSenList
 ###################################################################
 print '<br>[Stage 2 finished: ' + str(time.time()-t0) + 's]<br>'
-for x in taggedSenList:
-	for y in x:
-		print y[0] + ' ' + y[1] + '    ',
-print '\n'
-for x in ejlisedSenList:
-	for y in x:
-		print y[0] + ' ' + str(y[1]) + '   ',
-print '\n'
+#for x in taggedSenList:
+#	for y in x:
+#		print y[0] + ' ' + y[1] + '    ',
+#print '\n'
+#for x in ejlisedSenList:
+#	for y in x:
+#		print y[0] + ' ' + str(y[1]) + '   ',
+#print '\n'
 
 
 
@@ -148,8 +149,8 @@ print '<br>[Stage 3 finished: ' + str(time.time()-t0) + 's]<br>'
 # (treeList각 원소의) schemeList:
 #		Stage 5에서 목표언어로 재구성 할 때 필요합니다.
 from treeGen import treeGen
-print ejlisedSenList
-print taggedSenList
+#print ejlisedSenList
+#print taggedSenList
 senInfos = zip(ejlisedSenList, taggedSenList)
 treeList = []
 for x in senInfos:
@@ -158,9 +159,6 @@ for x in senInfos:
 ###################################################################
 print '<br>[Stage 4 finished: ' + str(time.time()-t0) + 's]<br>'
 
-driver.close()
-driver.quit()
-"""
 ###################################################################
 # Stage 5 : senBuilder
 ###################################################################
@@ -176,7 +174,6 @@ for i in range(len(ejlisedSenList)):
 ###################################################################
 print '<br>[Stage 5 finished: ' + str(time.time()-t0) + 's]<br>'
 
-
 # Wrap-up
 driver.close()
 driver.quit()
@@ -186,4 +183,3 @@ print '\n'
 print 'Successfully translated!'
 print '<br>[Translation finished: ' + str(time.time()-t0) + 's]<br>'
 #print result
-"""
