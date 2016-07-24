@@ -18,7 +18,7 @@
 # (Resetting the chararcter setting for unicode issue)
 # 3. 웹에서 들어오는 요청(시스템인자, sys.argv)을 python프로그램에서 받습니다. 
 #    (지금은 주석이 달려있고 아래 코드로 대체)
-import json, re, sys, time
+import json, sys, time
 import _mysql, msnotconfig
 t0 = time.time()
 reload(sys)
@@ -31,7 +31,7 @@ userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다
 #userInput = str('나는 너를 때리고 철수는 영희를 찼고 명수는 걔를 죽였다.')
 #userInput = str('사람이 하늘에서 떨어지면 대부분 죽는다.')
 userInput = str('드디어 연극계에도 할 일이 오고 있다.')
-#userInput = str('드디어 연극계에도 올 것이 오고 있다.')
+userInput = str('밥이 아직 따뜻할 때 먹어라.')
 
 host = msnotconfig.host
 user = msnotconfig.user
@@ -148,6 +148,8 @@ print '<br>[Stage 3 finished: ' + str(time.time()-t0) + 's]<br>'
 # === IMPORTANT! ===
 # (treeList각 원소의) schemeList:
 #		Stage 5에서 목표언어로 재구성 할 때 필요합니다.
+# (treeList각 원소의) schemeAnnexList:
+#		Stage 5에서 목표언어로 재구성 할 때 논리를 더 정교하게 만들기 위하여필요합니다.
 from treeGen import treeGen
 #print ejlisedSenList
 #print taggedSenList
@@ -169,7 +171,7 @@ print '<br>[Stage 4 finished: ' + str(time.time()-t0) + 's]<br>'
 from senBuilder import senBuilder
 outputList = []
 for i in range(len(ejlisedSenList)):
-	senBuilt = senBuilder(driver, ejlisedSenList[i], treeList[i].schemeList, partialTransListExt)
+	senBuilt = senBuilder(driver, ejlisedSenList[i], treeList[i].schemeList, treeList[i].schemeAnnexList, partialTransListExt)
 	outputList.append(senBuilt.finalOutput)
 ###################################################################
 print '<br>[Stage 5 finished: ' + str(time.time()-t0) + 's]<br>'

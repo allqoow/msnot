@@ -13,7 +13,7 @@
 class senBuilder():
 
 	# reuse open driver
-	def __init__(self, driver, ejlisedSen, schemeList, partialTransListExt):
+	def __init__(self, driver, ejlisedSen, schemeList, schemeAnnexList, partialTransListExt):
 		self.driver = driver 
 		self.ejlisedSen = ejlisedSen
 		self.schemeList = schemeList

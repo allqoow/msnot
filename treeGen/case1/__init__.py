@@ -15,11 +15,13 @@ class case1():
 		self.cpTypeToken = cpTypeToken
 
 		self.schemeIndex0 = 0
+		self.schemeIndex1 = auxList1[-1][1]
 		self.auxList2 = auxList1
 		self.schemeAnnex = {}
 
 		self.process()
 	def process(self):
+		print "저는 Case1을 맡고 있습니다!"
 		auxList2 = []
 		self.schemeIndex0 = self.auxList1[0][0]
 		self.auxList2 = self.auxList1

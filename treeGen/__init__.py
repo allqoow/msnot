@@ -266,11 +266,13 @@ class treeGen():
 			cpTypeCase1 = case1(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
 			# 중요! 
 			# schemeIndex0: int
+			# schemeIndex1: int
 			# auxList2: list
 			#			e.g. :[0, 1, 'AP'], [1, 5, 'NP_AJT'], [5, 7, 'VP_MOD']
 			# schemeAnnex: dictionary
-			#			e.g. :{"func":"yangbo", "gita":"dd"}
+			#			e.g. :{"func":"yangbo", "gita":"dd", "adjusted0":True}
 			schemeIndex0 = cpTypeCase1.schemeIndex0
+			schemeIndex1 = cpTypeCase1.schemeIndex1
 			auxList2 = cpTypeCase1.auxList2
 			schemeAnnex = cpTypeCase1.schemeAnnex
 		# Case: cpType == 'ETM'
@@ -278,7 +280,8 @@ class treeGen():
 		if cpType == 'ETM':
 			from case2 import case2
 			cpTypeCase2 = case2(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
-			schemeIndex0 = cpTypeCase2.schemeIndex0			
+			schemeIndex0 = cpTypeCase2.schemeIndex0
+			schemeIndex1 = cpTypeCase2.schemeIndex1
 			auxList2 = cpTypeCase2.auxList2
 			schemeAnnex = cpTypeCase2.schemeAnnex
 		# Case: cpType in ["EC,"EF"]
@@ -286,7 +289,8 @@ class treeGen():
 		else:
 			from case0 import case0
 			cpTypeCase0 = case0(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
-			schemeIndex0 = cpTypeCase0.schemeIndex0			
+			schemeIndex0 = cpTypeCase0.schemeIndex0
+			schemeIndex1 = cpTypeCase0.schemeIndex1
 			auxList2 = cpTypeCase0.auxList2
 			schemeAnnex = cpTypeCase0.schemeAnnex
 
@@ -339,8 +343,8 @@ class treeGen():
 								auxList2 = auxList1[i+1:]
 								break
 		print '\n\n_____Above is the place for your logs_____________'
-		# end is always the end			
-		schemeIndex1 = auxList1[-1][1]		
+		# end is always the end??
+		#schemeIndex1 = auxList1[-1][1]
 		#print schemeIndex0, ' ', schemeIndex1, ' ', auxList2
 		self.schemeTemp = [auxList2, schemeIndex0, schemeIndex1]
 		self.schemeAnnexList.append(schemeAnnex)
