@@ -239,7 +239,7 @@ class treeGen():
 		self.caseFlag1 = [flag10, flag11]
 		#print self.auxListForCf1g
 
-	def writeScheme0(self, auxList1, caseFlag0, caseFlag1):
+	def writeScheme0(self, cddCmpntList, caseFlag0, caseFlag1):
 		#print '++++++++++++++++writeScheme0+++++++++++++++++++'
 		#for y in self.taggedSen:
 		#	print y[0] + ' ' + y[1] + '    ',
@@ -247,11 +247,11 @@ class treeGen():
 		#for y in self.ejlisedSen:
 		#	print y[0] + ' ' + str(y[1]) + '   ',
 		#print '\n'
-		#print auxList1, caseFlag1
+		#print cddCmpntList, caseFlag1
 		caseFlag10 = caseFlag1[0]
 		caseFlag11 = caseFlag1[1]
 
-		cpTypeToken = self.taggedSen[auxList1[-1][1]-2:auxList1[-1][1]]
+		cpTypeToken = self.taggedSen[cddCmpntList[-1][1]-2:cddCmpntList[-1][1]]
 		#print cpTypeToken
 		for x in cpTypeToken:
 			if str(x[1]) in ["ETM","ETN","EC","EF"]:
@@ -262,15 +262,15 @@ class treeGen():
 		# Case: cpType == 'ETN'
 		# 명사절
 		if cpType == 'ETN':
-			from case1 import case1
-			cpTypeCase1 = case1(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
+			from tgCase1 import tgCase1
+			cpTypeCase1 = tgCase1(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
 			# 중요! 
 			# schemeIndex0: int
 			# schemeIndex1: int
 			# auxList2: list
 			#			e.g. :[0, 1, 'AP'], [1, 5, 'NP_AJT'], [5, 7, 'VP_MOD']
 			# schemeAnnex: dictionary
-			#			e.g. :{"func":"yangbo", "gita":"dd", "adjusted0":True}
+			#			e.g. :{"case":"case1", "gita":"dd", "adjusted0":True}
 			schemeIndex0 = cpTypeCase1.schemeIndex0
 			schemeIndex1 = cpTypeCase1.schemeIndex1
 			auxList2 = cpTypeCase1.auxList2
@@ -278,75 +278,75 @@ class treeGen():
 		# Case: cpType == 'ETM'
 		# 관형절
 		if cpType == 'ETM':
-			from case2 import case2
-			cpTypeCase2 = case2(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
+			from tgCase2 import tgCase2
+			cpTypeCase2 = tgCase2(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
 			schemeIndex0 = cpTypeCase2.schemeIndex0
 			schemeIndex1 = cpTypeCase2.schemeIndex1
-			auxList2 = cpTypeCase2.auxList2
+			cfmdCmpntList = cpTypeCase2.cfmdCmpntList
 			schemeAnnex = cpTypeCase2.schemeAnnex
 		# Case: cpType in ["EC,"EF"]
 		# 부사절, 서술절, 인용절
 		else:
-			from case0 import case0
-			cpTypeCase0 = case0(self.taggedSen, self.ejlisedSen, self.db, auxList1, cpTypeToken)
+			from tgCase0 import tgCase0
+			cpTypeCase0 = tgCase0(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
 			schemeIndex0 = cpTypeCase0.schemeIndex0
 			schemeIndex1 = cpTypeCase0.schemeIndex1
-			auxList2 = cpTypeCase0.auxList2
+			cfmdCmpntList = cpTypeCase0.cfmdCmpntList
 			schemeAnnex = cpTypeCase0.schemeAnnex
 
-			auxList2 = []
+			cfmdCmpntList = []
 			# VP *
 			if caseFlag10 == 0:
-				schemeIndex0 = auxList1[0][0]
-				auxList2 = auxList1
+				schemeIndex0 = cddCmpntList[0][0]
+				cfmdCmpntList = cddCmpntList
 			elif caseFlag0 == 'S':
-				schemeIndex0 = auxList1[0][0]
-				auxList2 = auxList1
+				schemeIndex0 = cddCmpntList[0][0]
+				cfmdCmpntList = cddCmpntList
 			# 대등 then 대등/ 대등
 			elif caseFlag0 == 'PP' or caseFlag0 == 'P':
-				schemeIndex0 = auxList1[0][0]
-				auxList2 = auxList1
+				schemeIndex0 = cddCmpntList[0][0]
+				cfmdCmpntList = cddCmpntList
 			# 대등 then 종속
 			elif caseFlag0 =='PS':
-				schemeIndex0 = auxList1[0][0]
-				auxList2 = auxList1
+				schemeIndex0 = cddCmpntList[0][0]
+				cfmdCmpntList = cddCmpntList
 			# 종속 then 대등
 			elif caseFlag0 =='SP':
 				# NP_SBJ VP NP_SBJ NP_SBJ VP
 				if caseFlag11 == 2:# caseFlag11 >= 2
-					schemeIndex0 = auxList1[0][0]
-					auxList2 = auxList1
+					schemeIndex0 = cddCmpntList[0][0]
+					cfmdCmpntList = cddCmpntList
 				elif caseFlag11 == 1 or caseFlag11 == 0:
 					if caseFlag10 == 1:
-						schemeIndex0 = auxList1[0][0]
-						auxList2 = auxList1
+						schemeIndex0 = cddCmpntList[0][0]
+						cfmdCmpntList = cddCmpntList
 					elif caseFlag10 == 2 or caseFlag10 == 3:
-						for i in range(len(auxList1)):
-							if auxList1[i][2] == 'NP_SBJ':
-								schemeIndex0 = auxList1[i+1][0]
-								auxList2 = auxList1[i+1:]
+						for i in range(len(cddCmpntList)):
+							if cddCmpntList[i][2] == 'NP_SBJ':
+								schemeIndex0 = cddCmpntList[i+1][0]
+								cfmdCmpntList = cddCmpntList[i+1:]
 								break
 			# 종속 then 종속
 			elif caseFlag0 =='SS':
 				# NP_SBJ VP NP_SBJ NP_SBJ VP
 				if caseFlag11 == 2:# caseFlag11 >= 2
-					schemeIndex0 = auxList1[0][0]
-					auxList2 = auxList1
+					schemeIndex0 = cddCmpntList[0][0]
+					cfmdCmpntList = cddCmpntList
 				elif caseFlag11 == 1 or caseFlag11 == 0:
 					if caseFlag10 == 1:
-						schemeIndex0 = auxList1[0][0]
-						auxList2 = auxList1
+						schemeIndex0 = cddCmpntList[0][0]
+						cfmdCmpntList = cddCmpntList
 					elif caseFlag10 == 2 or caseFlag10 == 3:
-						for i in range(len(auxList1)):
-							if auxList1[i][2] == 'NP_SBJ':
-								schemeIndex0 = auxList1[i+1][0]
-								auxList2 = auxList1[i+1:]
+						for i in range(len(cddCmpntList)):
+							if cddCmpntList[i][2] == 'NP_SBJ':
+								schemeIndex0 = cddCmpntList[i+1][0]
+								cfmdCmpntList = cddCmpntList[i+1:]
 								break
 		print '\n\n_____Above is the place for your logs_____________'
 		# end is always the end??
-		#schemeIndex1 = auxList1[-1][1]
-		#print schemeIndex0, ' ', schemeIndex1, ' ', auxList2
-		self.schemeTemp = [auxList2, schemeIndex0, schemeIndex1]
+		#schemeIndex1 = cddCmpntList[-1][1]
+		#print schemeIndex0, ' ', schemeIndex1, ' ', cfmdCmpntList
+		self.schemeTemp = [cfmdCmpntList, schemeIndex0, schemeIndex1]
 		self.schemeAnnexList.append(schemeAnnex)
 
 	def doStageCc(self, schemeTempCc):
