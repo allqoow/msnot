@@ -34,5 +34,4 @@ input6 = str('국토교통부는 국토의 체계적인 개발과 보존, 교통
 
 import nltk
 from nltk.corpus import propbank
-#nltk.download()
-print dir(propbank)
+
