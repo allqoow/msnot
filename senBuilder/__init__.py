@@ -86,13 +86,12 @@ class senBuilder():
 			#from sbCase0 import sbCase0
 		"""
 		inputPhrase = ''
+		# 구절 자체를 손대야 하는 경우 여기서
 		for x in self.ejlisedSen[ejIndex0:ejIndex1]:
+			if "phrFix" in self.schemeAnnexList[self.schemeIndex]:
+				pass
 			inputPhrase += str(x[0])
 			inputPhrase += ' '
-		# 구절 자체를 손대야 하는 경우
-		if "phrFix" in self.schemeAnnexList[self.schemeIndex]:
-			pass
-			#inputPhraseAppend = self.schemeAnnexList[self.schemeIndex]["phrAppend"][0]
 
 		# 전 시행에서 첨부된 부분 삭제(바로 전 시행만 해도 괜찮을까?)
 		if "phrAppend" in self.schemeAnnexList[self.schemeIndex-1]:

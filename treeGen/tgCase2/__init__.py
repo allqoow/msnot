@@ -53,8 +53,8 @@ class tgCase2():
 
 			if countForTl0 == 0:
 				#목적어가 없다면
-				self.schemeIndex1 = self.cddCmpntList[-1][0]
-				pass
+				self.schemeIndex0 = self.cddCmpntList[-1][0]
+				print self.schemeIndex0
 			elif countForTl0 == 1:
 				#목적어가 없다면
 				cutGuide1 = self.cddCmpntList[cutGuide0][0]
@@ -70,28 +70,45 @@ class tgCase2():
 					self.schemeAnnex["adjusted"] = True
 			print countForTl1
 
-			#어떤 명사를 수식하는지 보자.
+			# 어떤 명사를 수식하는지 보자.
+			# 필요에 따라서는 추가까지
 			print '+++++++++++어떤 명사를 수식하는지 보자+++++++++++++++'
 			appendGuide0 = self.cddCmpntList[-1][1]
-			print appendGuide0
+			for x in self.ejlisedSen:
+				if x[1][0] == appendGuide0:
+					appendGuide1 = x[1][1]
+
+					print appendGuide0
+					print appendGuide1
+					for y in self.taggedSen[appendGuide0:appendGuide1]:
+						if y[0] in ["동안","때","도중","중간"]:
+							self.schemeAnnex["phrAppend"] = x
+							self.schemeAnnex["alias"] = "sometime"
+					break		
+			"""
 			# temporal noun(?)
-			phraseAppendCddList = ['동안','때','도중']
+			phraseAppendCddList0 = ['동안','때','도중']
 			print self.taggedSen[appendGuide0][0]
-			if self.taggedSen[appendGuide0][0] in phraseAppendCddList:
+			
+			
+			
+			else:
 				for x in self.ejlisedSen:
 					if x[1][0] == appendGuide0:
 						print x[0]
 						print x[1][0]
 						print x[1][1]
 						self.schemeAnnex["phrAppend"] = x
-						self.schemeAnnex["alias"] = "sometime"
+						self.schemeAnnex["alias"] = "something"
+			"""
+
 			print self.schemeAnnex
 
 
 	def testSemanticAvail(self):
 		print '+++++++++++testSemanticAvail++++++++++++++++++'
-		# some conditions e.g. there exists a db for sematic analysis
-		if True==False:
+		# some conditions e.g. there exists a db for semantic analysis
+		if True == False:
 			self.semanticAvail = True
 		# otherwise
 		else:

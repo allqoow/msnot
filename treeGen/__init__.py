@@ -191,7 +191,7 @@ class treeGen():
 			x[0] += self.adjustExt
 			x[1] += self.adjustExt
 		self.tagToCmpnt = self.ttcPrevious + tagToCmpnt
-		self.ttcPrevious = tagToCmpnt
+		self.ttcPrevious = self.tagToCmpnt
 		#
 		self.adjustExt += len(aa)
 
@@ -219,13 +219,13 @@ class treeGen():
 		for j in range(len(self.tagToCmpnt)):
 			if self.treekeyList[i][0]+1 == self.tagToCmpnt[j][1]:
 				self.auxListForCf1g = self.tagToCmpnt[:j+1]
-		#		print self.auxListForCf1g
+				print self.auxListForCf1g
 				break
 		for j in range(len(self.tagToCmpnt)):
 			try:
 				if self.treekeyList[i+1][0]+1 == self.tagToCmpnt[j][1]:
 					onlyForCount = self.tagToCmpnt[:j+1]
-		#			print onlyForCount
+					print onlyForCount
 					break
 			except IndexError:
 				onlyForCount = None
@@ -240,14 +240,14 @@ class treeGen():
 		#print self.auxListForCf1g
 
 	def writeScheme0(self, cddCmpntList, caseFlag0, caseFlag1):
-		#print '++++++++++++++++writeScheme0+++++++++++++++++++'
+		print '++++++++++++++++writeScheme0+++++++++++++++++++'
 		#for y in self.taggedSen:
 		#	print y[0] + ' ' + y[1] + '    ',
 		#print '\n'
 		#for y in self.ejlisedSen:
 		#	print y[0] + ' ' + str(y[1]) + '   ',
 		#print '\n'
-		#print cddCmpntList, caseFlag1
+		print cddCmpntList, caseFlag1
 		caseFlag10 = caseFlag1[0]
 		caseFlag11 = caseFlag1[1]
 
