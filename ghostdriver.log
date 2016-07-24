@@ -3,3 +3,15 @@
 [INFO  - 2016-07-24T13:45:01.189Z] Session [d17215a0-51a4-11e6-8b6b-1d7033bafbe9] - page.customHeaders:  - {}
 [INFO  - 2016-07-24T13:45:01.189Z] Session [d17215a0-51a4-11e6-8b6b-1d7033bafbe9] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"windows-10-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
 [INFO  - 2016-07-24T13:45:01.189Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: d17215a0-51a4-11e6-8b6b-1d7033bafbe9
+[ERROR - 2016-07-24T13:45:20.664Z] Session [d17215a0-51a4-11e6-8b6b-1d7033bafbe9] - page.onError - msg: TypeError: undefined is not an obje[INFO  - 2016-07-24T13:45:41.339Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2016-07-24T13:45:45.202Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+160718_RC03/r/js/desktop_module_main.js:16)
+
+  phantomjs://platform/console++.js:263 in error
+[ERROR - 2016-07-24T13:45:24.674Z] Session [d17215a0-51a4-11e6-8b6b-1d7033bafbe9] - page.onError - msg: TypeError: undefined is not an object (evaluating 'delete window.jstiming.Zc[d]')
+
+  phantomjs://platform/console++.js:263 in error
+[ERROR - 2016-07-24T13:45:24.674Z] Session [d17215a0-51a4-11e6-8b6b-1d7033bafbe9] - page.onError - stack:
+  onerror (https://translate.google.co.kr/translate/releases/twsfe_w_20160718_RC03/r/js/desktop_module_main.js:16)
+
+  phantomjs://platform/console++.js:263 in error
