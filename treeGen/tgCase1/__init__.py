@@ -22,7 +22,7 @@ class tgCase1():
 
 		self.process()
 	def process(self):
-		print "저는 Case1을 맡고 있습니다!"
+		print "저는 Case1을 맡고 있습니다!!!!!"
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
