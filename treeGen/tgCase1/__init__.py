@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Author    : Your developer name
-# Contact   : Your eMail
-# Started on: 201607??(yyyymmdd)
+# Author    : Gomyul
+# Contact   : ldh2051@gmail.com
+# Started on: 20160725
 # Project	: msnot
 
 import re
