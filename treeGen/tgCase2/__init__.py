@@ -6,6 +6,7 @@
 # Started on: 201607??(yyyymmdd)
 # Project	: msnot
 
+
 import re
 class tgCase2():
 	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken):
@@ -43,11 +44,11 @@ class tgCase2():
 			tList1 = [item[1] for item in self.taggedSen]
 			
 			countForTl0 = 0
-			cutGuide0 = 0
+			cutGuide0 = []
 			for i in range(len(tList0)):
 				if tList0[i] == "NP_SBJ":
 					countForTl0 += 1
-					cutGuide0 = i
+					cutGuide0.append(i)
 			print countForTl0
 			print cutGuide0
 
@@ -57,9 +58,10 @@ class tgCase2():
 				print self.schemeIndex0
 			elif countForTl0 == 1:
 				#목적어가 없다면
-				cutGuide1 = self.cddCmpntList[cutGuide0][0]
-				print cutGuide1
-				self.schemeIndex0 = cutGuide1
+				#cutGuide1 = self.cddCmpntList[cutGuide0][0]
+				#print cutGuide1
+				#self.schemeIndex0 = cutGuide1
+				self.schemeIndex0 = self.cddCmpntList[cutGuide0[0]][0]
 			elif countForTl0 > 1:
 				pass
 
@@ -69,6 +71,8 @@ class tgCase2():
 					countForTl1 += 0
 					self.schemeAnnex["adjusted"] = True
 			print countForTl1
+
+			# 동사 단독구면 확실히 다른 처리를 해야 한다.
 
 			# 어떤 명사를 수식하는지 보자.
 			# 필요에 따라서는 추가까지
@@ -80,10 +84,17 @@ class tgCase2():
 
 					print appendGuide0
 					print appendGuide1
+					"""
 					for y in self.taggedSen[appendGuide0:appendGuide1]:
 						if y[0] in ["동안","때","도중","중간"]:
 							self.schemeAnnex["phrAppend"] = x
 							self.schemeAnnex["alias"] = "sometime"
+					break
+					"""
+					for y in self.taggedSen[appendGuide0:appendGuide1]:
+						if y[0] in ["곳","장소","식당"]:
+							self.schemeAnnex["phrAppend"] = x
+							self.schemeAnnex["alias"] = "somewhere"
 					break		
 			"""
 			# temporal noun(?)
