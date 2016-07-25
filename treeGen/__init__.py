@@ -8,6 +8,7 @@
 
 class treeGen():
 	def __init__(self, ejlisedSen, taggedSen, db):
+		# I am doing with treegen
 		self.case = 0
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
