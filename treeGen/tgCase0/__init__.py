@@ -1,27 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Author    : cheukusi
-# Contact   : cheukusi.kim@gmail.com
-# Started on: 20160725
-=======
 # Author    : moon-eunseo
 # Contact   : aristocat1703@gmail.com
 # Started on: 20160725(yyyymmdd)
->>>>>>> bfe8310ff4b6ec5d9406c333c8bd979f595a8468
-=======
-# Author    : moon-eunseo
-# Contact   : aristocat1703@gmail.com
-# Started on: 20160725(yyyymmdd)
->>>>>>> bfe8310ff4b6ec5d9406c333c8bd979f595a8468
-=======
-# Author    : moon-eunseo
-# Contact   : aristocat1703@gmail.com
-# Started on: 20160725(yyyymmdd)
->>>>>>> origin/master
 # Project	: msnot
 
 import re
@@ -40,7 +22,7 @@ class tgCase0():
 
 		self.process()
 	def process(self):
-		print "저는 Case2을 맡고 있습니다!"
+		print "저는 Case0을 맡고 있습니다!"
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
