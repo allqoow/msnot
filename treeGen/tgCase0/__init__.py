@@ -1,9 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
+<<<<<<< HEAD
 # Author    : cheukusi
 # Contact   : cheukusi.kim@gmail.com
 # Started on: 20160725
+=======
+# Author    : moon-eunseo
+# Contact   : aristocat1703@gmail.com
+# Started on: 20160725(yyyymmdd)
+>>>>>>> bfe8310ff4b6ec5d9406c333c8bd979f595a8468
 # Project	: msnot
 
 import re
