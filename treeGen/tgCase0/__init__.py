@@ -3,6 +3,7 @@
 #
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Author    : cheukusi
 # Contact   : cheukusi.kim@gmail.com
 # Started on: 20160725
@@ -16,6 +17,11 @@
 # Contact   : aristocat1703@gmail.com
 # Started on: 20160725(yyyymmdd)
 >>>>>>> bfe8310ff4b6ec5d9406c333c8bd979f595a8468
+=======
+# Author    : moon-eunseo
+# Contact   : aristocat1703@gmail.com
+# Started on: 20160725(yyyymmdd)
+>>>>>>> origin/master
 # Project	: msnot
 
 import re
