@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Author    : Your developer name
-# Contact   : Your eMail
-# Started on: 201607??(yyyymmdd)
+# Author    : moon-eunseo
+# Contact   : aristocat1703@gmail.com
+# Started on: 20160725(yyyymmdd)
 # Project	: msnot
-# it's me
 
 import re
 class tgCase0():
