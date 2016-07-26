@@ -32,7 +32,6 @@ input5 = str('미래창조과학부는 과학기술정책과 정보통신기술(
 input6 = str('국토교통부는 국토의 체계적인 개발과 보존, 교통물류체계 구축 등의 사무를 관장하는 중앙행정기관을 말한다.')
 '''
 
-import nltk
-from nltk.corpus import propbank
+#import nltk
+#from nltk.corpus import propbank
 print 'asdfadfasdfsdfa'
-
