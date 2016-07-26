@@ -26,7 +26,11 @@ class tgCase0():
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
+<<<<<<< HEAD
+"""
+=======
 		"""
+>>>>>>> origin/master
 		cfmdCmpntList = []
 			# VP *
 			if caseFlag10 == 0:
@@ -75,4 +79,8 @@ class tgCase0():
 								schemeIndex0 = cddCmpntList[i+1][0]
 								cfmdCmpntList = cddCmpntList[i+1:]
 								break
+<<<<<<< HEAD
+								"""
+=======
 		"""
+>>>>>>> origin/master
