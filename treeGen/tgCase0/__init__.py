@@ -23,14 +23,19 @@ class tgCase0():
 		self.process()
 	def process(self):
 		print "저는 Case0을 맡고 있습니다!"
+		for x in self.taggedSen:
+			print x[0] + ' ' + str(x[1]) + '    ',
+		print '\n'
+		for x in self.ejlisedSen:
+			print x[0] + ' ' + str(x[1]) + '   ',
+		print '\n'
+		print self.cddCmpntList
+		print self.cpTypeToken
+		
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
-<<<<<<< HEAD
-"""
-=======
 		"""
->>>>>>> origin/master
 		cfmdCmpntList = []
 			# VP *
 			if caseFlag10 == 0:
@@ -79,8 +84,5 @@ class tgCase0():
 								schemeIndex0 = cddCmpntList[i+1][0]
 								cfmdCmpntList = cddCmpntList[i+1:]
 								break
-<<<<<<< HEAD
-								"""
-=======
+
 		"""
->>>>>>> origin/master
