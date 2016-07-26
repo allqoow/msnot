@@ -31,11 +31,18 @@ class tgCase0():
 		print '\n'
 		print self.cddCmpntList
 		print self.cpTypeToken
+<<<<<<< HEAD
 
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
 
+=======
+		
+		auxList2 = []
+		self.schemeIndex0 = self.cddCmpntList[0][0]
+		self.auxList2 = self.cddCmpntList
+>>>>>>> origin/master
 		"""
 		cfmdCmpntList = []
 			# VP *
@@ -85,4 +92,8 @@ class tgCase0():
 								schemeIndex0 = cddCmpntList[i+1][0]
 								cfmdCmpntList = cddCmpntList[i+1:]
 								break
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 		"""
