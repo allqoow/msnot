@@ -34,4 +34,32 @@ input6 = str('국토교통부는 국토의 체계적인 개발과 보존, 교통
 
 #import nltk
 #from nltk.corpus import propbank
-print 'asdfadfasdfsdfa'
+
+1
+'asdf'
+[1,2,3,4]
+
+class saram():
+	def __init__(self):
+		self.dari -= 1
+		self.son = 2
+	
+
+	def dz(self):
+		print "으악!"
+		self.dari -= 1 
+
+
+
+b = list([1,2,3])
+print type(b)
+print b
+print b.pop()
+print b
+print '\n'
+
+c = saram()
+print type(c)
+print c.dari
+print c.dz()
+print c.dari

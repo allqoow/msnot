@@ -63,6 +63,7 @@ class tgCase2():
 				#self.schemeIndex0 = cutGuide1
 				self.schemeIndex0 = self.cddCmpntList[cutGuide0[0]][0]
 			elif countForTl0 > 1:
+				self.schemeIndex0 = self.cddCmpntList[cutGuide0[-1]][0]
 				pass
 
 			countForTl1 = 0
