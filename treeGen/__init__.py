@@ -268,13 +268,13 @@ class treeGen():
 			# 중요! 
 			# schemeIndex0: int
 			# schemeIndex1: int
-			# auxList2: list
+			# cfmdCmpntList: list
 			#			e.g. :[0, 1, 'AP'], [1, 5, 'NP_AJT'], [5, 7, 'VP_MOD']
 			# schemeAnnex: dictionary
 			#			e.g. :{"case":"case1", "gita":"dd", "adjusted0":True}
 			schemeIndex0 = cpTypeCase1.schemeIndex0
 			schemeIndex1 = cpTypeCase1.schemeIndex1
-			auxList2 = cpTypeCase1.auxList2
+			cfmdCmpntList = cpTypeCase1.cfmdCmpntList
 			schemeAnnex = cpTypeCase1.schemeAnnex
 		# Case: cpType == 'ETM'
 		# 관형절

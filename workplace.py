@@ -32,7 +32,34 @@ input5 = str('미래창조과학부는 과학기술정책과 정보통신기술(
 input6 = str('국토교통부는 국토의 체계적인 개발과 보존, 교통물류체계 구축 등의 사무를 관장하는 중앙행정기관을 말한다.')
 '''
 
-import nltk
-from nltk.corpus import propbank
-print 'asdfa'
+#import nltk
+#from nltk.corpus import propbank
 
+1
+'asdf'
+[1,2,3,4]
+
+class saram():
+	def __init__(self):
+		self.dari -= 1
+		self.son = 2
+	
+
+	def dz(self):
+		print "으악!"
+		self.dari -= 1 
+
+
+
+b = list([1,2,3])
+print type(b)
+print b
+print b.pop()
+print b
+print '\n'
+
+c = saram()
+print type(c)
+print c.dari
+print c.dz()
+print c.dari
