@@ -24,6 +24,7 @@ class tgCase2():
 
 		self.process()
 		
+
 	def process(self):
 		for x in self.taggedSen:
 			print x[0] + ' ' + str(x[1]) + '    ',
@@ -39,15 +40,15 @@ class tgCase2():
 		if self.semanticAvail == True:
 			pass
 		elif self.semanticAvail == False:
-			if self.cddCmpntList[-1][1] - self.cddCmpntList[-1][1] == 2:
-				#from tgCase00 import tgCase00
-				#case00 = tgCase00()
-				#self.schemeIndex0 = case00.schemeIndex0
-				#self.schemeIndex1 = case00.schemeIndex1
-				#self.cfmdCmpntList = case00.cfmdCmpntList
-				#self.schemeAnnex = case00.schemeAnnex
+			print '+++++++++++testSemanticAvail==False+++++++++++'
+			if self.cddCmpntList[-1][1] - self.cddCmpntList[-1][0] == 2:
+				from tgCase20 import tgCase20
+				case20 = tgCase20(self.ejlisedSen, self.taggedSen, self.db, self.cddCmpntList, self.cpTypeToken)
+				self.schemeIndex0 = case20.schemeIndex0
+				self.schemeIndex1 = case20.schemeIndex1
+				self.cfmdCmpntList = case20.cfmdCmpntList
+				self.schemeAnnex = case20.schemeAnnex
 			else:
-				print '+++++++++++testSemanticAvail==False+++++++++++'
 				tList0 = [item[2] for item in self.cddCmpntList]
 				tList1 = [item[1] for item in self.taggedSen]
 				

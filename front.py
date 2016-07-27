@@ -34,7 +34,7 @@ userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다
 
 #userInput = str('나는 너를 때리고 철수는 영희를 찼고 명수는 걔를 죽였다.')
 #userInput = str('사람이 하늘에서 떨어지면 대부분 죽는다.')
-userInput = str('드디어 연극계에도 먹을 일이 오고 있다.')
+userInput = str('드디어 연극계에도 할 일이 오고 있다.')
 #userInput = str('내가 소개해 준 식당에서 먹어라.')
 
 host = msnotconfig.host
