@@ -116,8 +116,8 @@ try:
 	import selenium
 	from selenium import webdriver
 	from selenium.webdriver.common.keys import Keys
-	#driver = webdriver.Firefox()
-	driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
+	driver = webdriver.Firefox()
+	#driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
 	#driver = webdriver.PhantomJS()  
 	#driver.implicitly_wait(10)
 	from subsWebBased import subsWebBased
