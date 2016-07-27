@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Author    : Your developer name
-# Contact   : Your eMail
+# Author    : Gomyul
+# Contact   : ldh2051@gmail.com
 # Started on: 201607??(yyyymmdd)
 # Project	: msnot
 

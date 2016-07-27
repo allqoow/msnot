@@ -1,18 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Author    : Gomyul
-# Contact   : ldh2051@gmail.com
+# Author    : SoanNunim
+# Contact   : 
 # Started on: 20160725
 # Project	: msnot
 
 import re
 class tgCase1():
 	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken):
-		self.ejlisedSen = ejlisedSen
+		self.ejlisedSen = ejlisedSen #ejlisedSen=어절lized 문장
 		self.taggedSen = taggedSen
 		self.db = db
-		self.cddCmpntList = cddCmpntList
+		self.cddCmpntList = cddCmpntList #candidatecomponentlist : 어디로 자를지 모를 때 앞에 있는 후보자들 리스트
 		self.cpTypeToken = cpTypeToken
 
 		self.schemeIndex0 = 0
