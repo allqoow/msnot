@@ -41,7 +41,14 @@ class tgCase2():
 			pass
 		elif self.semanticAvail == False:
 			print '+++++++++++testSemanticAvail==False+++++++++++'
-			if self.cddCmpntList[-1][1] - self.cddCmpntList[-1][0] == 2:
+			tList0 = [item[2] for item in self.cddCmpntList]
+			for x in tList0:
+				if x in ['NP_SBJ', 'NP_OBJ']:
+					singleSyllableVp = False
+				else:
+					singleSyllableVp = True
+
+			if self.cddCmpntList[-1][1] - self.cddCmpntList[-1][0] == 2 and singleSyllableVp == True:
 				from tgCase20 import tgCase20
 				case20 = tgCase20(self.ejlisedSen, self.taggedSen, self.db, self.cddCmpntList, self.cpTypeToken)
 				self.schemeIndex0 = case20.schemeIndex0

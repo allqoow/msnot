@@ -354,6 +354,7 @@ class treeGen():
 		#print '+++++++++++++++++++doStageCc++++++++++++++++++'
 		if len(schemeTempCc[0]) == 1:
 			furtherCmpntble = False
+			cmpntToCmpnt = schemeTempCc[0]
 		else:
 			furtherCmpntble = True
 		#print schemeTempCc[0]

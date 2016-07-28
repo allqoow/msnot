@@ -6,10 +6,6 @@
 # Started on: 20160624(yyyymmdd)
 # Project	: msnot
 
-# 구글번역기로 대체할 부분
-# 4-2. rearranging & substituting to English words
-# 4-3. reconstructing a sentence from a tree
-
 class senBuilder():
 
 	# reuse open driver
@@ -70,8 +66,13 @@ class senBuilder():
 
 		phrasePos = self.schemeList[self.schemeIndex][2]
 
-		self.partialTransSave(ejIndex0, ejIndex1, rawPartialTrans, phrasePos)
-
+		if "rtsrFlag" in self.schemeAnnexList[self.schemeIndex]:
+			self.partialTransList.append([rawPartialTrans, alias, self.translatedOrder])
+			self.enAlias(ejIndex0, ejIndex1, alias)
+			self.translatedOrder += 1
+			pass
+		else:
+			self.partialTransSaveRegular(ejIndex0, ejIndex1, rawPartialTrans, phrasePos)
 		#self.schemeAdjust = scheme[1] - scheme[0] - 1
 		self.schemeIndex += 1
 
@@ -89,7 +90,12 @@ class senBuilder():
 		# 구절 자체를 손대야 하는 경우 여기서
 		for x in self.ejlisedSen[ejIndex0:ejIndex1]:
 			if "phrFix" in self.schemeAnnexList[self.schemeIndex]:
-				pass
+				for y in self.schemeAnnexList[self.schemeIndex]["phrFix"]:
+					if x[1] == y[1]:#??
+						x[0] = y[0]
+						break
+
+			print str(x[0])
 			inputPhrase += str(x[0])
 			inputPhrase += ' '
 
@@ -118,7 +124,7 @@ class senBuilder():
 		self.inputPhrase = inputPhrase
 
 
-	def partialTransSave(self, ejIndex0, ejIndex1, rawPartialTrans, phrasePos):
+	def partialTransSaveRegular(self, ejIndex0, ejIndex1, rawPartialTrans, phrasePos):
 		# Case 1
 		alias = self.schemeAnnexList[self.schemeIndex]["alias"]
 		"""
