@@ -26,16 +26,7 @@ sys.setdefaultencoding('utf-8')
 
 #print sys.path
 #print sys.argv[1]
-#userInput = str('지나간 것은 지나간 대로 그런 의미가 있습니다.')
-
-userInput = str('나는 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고 머리를 다쳤다.')
-
 userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고 머리를 다쳤다.')
-
-#userInput = str('나는 너를 때리고 철수는 영희를 찼고 명수는 걔를 죽였다.')
-#userInput = str('사람이 하늘에서 떨어지면 대부분 죽는다.')
-userInput = str('드디어 연극계에도 전할 일이 오고 있다.')
-#userInput = str('내가 소개해 준 식당에서 먹어라.')
 
 host = msnotconfig.host
 user = msnotconfig.user
@@ -116,22 +107,16 @@ from subsLibBased import subsLibBased
 subsLibBased()
 partialTransListExt = []
 
-try:
-	import selenium
-	from selenium import webdriver
-	from selenium.webdriver.common.keys import Keys
-	driver = webdriver.Firefox()
-	#driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
-	#driver = webdriver.PhantomJS()  
-	#driver.implicitly_wait(10)
-	from subsWebBased import subsWebBased
-	subsWebBased(driver)
-	partialTransListExt = []
-except selenium.common.exceptions.WebDriverException as e:
-	print '<br><br>'
-	#print dir(e)
-	print e.msg
-	print '<br><br>'
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+driver = webdriver.Firefox()
+#driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
+#driver = webdriver.PhantomJS()  
+#driver.implicitly_wait(10)
+from subsWebBased import subsWebBased
+subsWebBased(driver)
+partialTransListExt = []
 ###################################################################
 print '<br>[Stage 3 finished: ' + str(time.time()-t0) + 's]<br>'
 
@@ -164,6 +149,8 @@ for x in senInfos:
 	treeList.append(aTree)
 ###################################################################
 print '<br>[Stage 4 finished: ' + str(time.time()-t0) + 's]<br>'
+
+
 
 ###################################################################
 # Stage 5 : senBuilder

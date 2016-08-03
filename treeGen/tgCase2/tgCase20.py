@@ -27,6 +27,7 @@ class tgCase20():
 		if self.taggedSen[self.schemeIndex0][1] == "VV":
 			toPhrFix = str(self.taggedSen[self.schemeIndex0][0])
 			toPhrFix = str(toPhrFix + "다")
+			# if self.schemeAnnex["phrFix"] is not defined
 			if "phrFix" not in self.schemeAnnex:
 				self.schemeAnnex["phrFix"] = []
 			self.schemeAnnex["phrFix"].append([toPhrFix, [5,7]])

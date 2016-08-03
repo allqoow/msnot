@@ -42,7 +42,22 @@ class tgCase0():
 		auxList2 = []
 		self.schemeIndex0 = self.cddCmpntList[0][0]
 		self.auxList2 = self.cddCmpntList
-
+		"""
+		#print '+++++++++++++++caseFlag0Gen+++++++++++++++++++'
+		self.caseFlag0 = ''
+		#auxList = []
+		for k in self.treekeyList[i:i+2]:
+			if k[1] == 'EC' and k[2] in ['고','지만','든지']:#등등
+				#auxList.append('ECC')
+				self.caseFlag0 = self.caseFlag0 + 'P'
+			else:
+				#auxList.append('ECS')
+				self.caseFlag0 = self.caseFlag0 + 'S'
+		#if len(auxList) == 1:
+		#	self.caseFlag0 = auxList[0][-1]
+		#else:
+		#	self.caseFlag0 = auxList[0][-1] + auxList[1][-1]
+		"""
 		"""
 		cfmdCmpntList = []
 			# VP *
@@ -92,8 +107,5 @@ class tgCase0():
 								schemeIndex0 = cddCmpntList[i+1][0]
 								cfmdCmpntList = cddCmpntList[i+1:]
 								break
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 		"""
