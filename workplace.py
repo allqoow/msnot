@@ -11,7 +11,6 @@ import os, re, sys
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-print 875500*0.05/12
 """
 from pyPdf import PdfFileWriter, PdfFileReader
 
@@ -36,18 +35,15 @@ userInput = str('드디어 연극계에도 예쁜 일이 오고 있다.')
 input5 = str('미래창조과학부는 과학기술정책과 정보통신기술(ICT)에 관한 사무를 관장하는 중앙행정기관을 말한다.')
 input6 = str('국토교통부는 국토의 체계적인 개발과 보존, 교통물류체계 구축 등의 사무를 관장하는 중앙행정기관을 말한다.')
 '''
-"""
+
 #import nltk
 #from nltk.corpus import propbank
-import MySQLdb
-import _mysql
-host = "allqoow001.cmfmq9ntkqns.ap-northeast-1.rds.amazonaws.com"
-user = "allqoow"
-password = "dhshsaes"
-dbname = "msnotproto"
+import _mysql, msnotconfig
+host = msnotconfig.host
+user = msnotconfig.user
+password = msnotconfig.password
+dbname = msnotconfig.dbname
 db = _mysql.connect(host,user,password,dbname)
-"""
-
 
 import selenium
 from selenium import webdriver
@@ -57,17 +53,15 @@ driver = webdriver.Firefox()
 
 #searchInput = unicode("철수")
 #searchWordtype = "N"
-def doDictSearchB(searchInput, searchWordtype, driver):
+def dictSearchByWord(searchInput, searchWordtype, driver):
 	searchInput = unicode(searchInput)
 	driver.get("http://dic.daum.net/index.do?dic=kor")
 	searchBox = driver.find_element_by_class_name("tf_keyword")
 	searchBox.send_keys(searchInput)
 	driver.find_element_by_class_name("btn_search").click()
-	print driver.current_url
 
 	if re.search(r"search\.do\?", driver.current_url) != None:
 		driver.find_element_by_class_name("txt_cleansch").click()
-	print driver.current_url
 
 	elems = driver.find_elements_by_class_name("fold_open")
 	for x in elems:
@@ -91,7 +85,12 @@ def doDictSearchB(searchInput, searchWordtype, driver):
 			print "패쓰!"
 			bb = bb + searchInput + ";"
 		
-		descs = x.find_elements_by_class_name("desc_item")		
+		curl = driver.current_url
+
+		pos = x.find_element_by_class_name("tit_ex")
+		print type(pos.text)
+		print len(pos.text)
+		descs = x.find_elements_by_class_name("desc_item")
 		for y in descs:			
 			print y.text
 			desc = str(y.text)
@@ -104,7 +103,7 @@ def doDictSearchB(searchInput, searchWordtype, driver):
 		bb = bb + "|"
 	return bb
 
-bb = doDictSearch("철수", "N", driver)
+bb = dictSearchByWord("웃다", "V", driver)
 print bb
 from konlpy.tag import Komoran
 Komoran = Komoran()

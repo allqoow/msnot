@@ -8,7 +8,6 @@
 
 class treeGen():
 	def __init__(self, ejlisedSen, taggedSen, db):
-		self.case = 0
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.db = db
@@ -21,8 +20,6 @@ class treeGen():
 		self.tagToCmpnt = []
 		self.cmpntToCmpnt = []
 		self.ttcPrevious = []
-		self.adjustExt = 0
-		self.auxListForCf1g = []
 
 		self.treekeyListGen()
 		self.schemeListGen()
@@ -61,29 +58,20 @@ class treeGen():
 		localTagSeq = [str(item[1]) for item in self.taggedSen]
 
 		for i in range(len(self.treekeyList)):
-			print '++++++++++++++++++doStageTTTT+++++++++++++++++'
-			print self.ttcPrevious
 			if i == 0:
-				print self.treekeyList[i][0]+1
 				aa = localTagSeq[:self.treekeyList[i][0]+1]
 			else:
-				print self.treekeyList[i-1][0]+1
-				print self.treekeyList[i][0]+1
 				aa = localTagSeq[self.treekeyList[i-1][0]+1:self.treekeyList[i][0]+1]
+			
+			#print self.ttcPrevious
+			#print self.tagToCmpnt
 			print aa
-
 			self.doStageTt(aa)
-			print self.tagToCmpnt
-		
+			
+		# 합치면 안 되는 루프들입니다!!!	
 		for i in range(len(self.treekeyList)):
 			print '+++++++++++++++Starting the Loop++++++++++++++'
-			#self.caseFlag0Gen(self.treekeyList, i)
-			#print self.caseFlag0
-		
-			self.caseFlag1Gen(self.treekeyList, i)
-	
-			self.writeScheme0(self.auxListForCf1g)
-
+			self.writeScheme0(i)
 			self.doStageCc(self.schemeTemp)
 			self.writeScheme1(self.someVar)
 
@@ -99,6 +87,7 @@ class treeGen():
 		indexEnd = len(aa)
 		tagToCmpnt = []
 		stepbwd = 0
+
 		listExhaust = False
 		while listExhaust == False:			
 			sqlQueryCommon = "SELECT * FROM patterns_tt WHERE"
@@ -179,78 +168,15 @@ class treeGen():
 		self.tagToCmpnt = self.ttcPrevious + tagToCmpnt
 		self.ttcPrevious = self.tagToCmpnt
 		self.adjustExt += len(aa)
-
-	# 모든 case마다 필요한 것은 아니므로 삭제 예정, 필요한 곳에서 재활용은 될듯
-	"""
-	def caseFlag0Gen(self, treekeyList, i):
-		#print '+++++++++++++++caseFlag0Gen+++++++++++++++++++'
-		self.caseFlag0 = ''
-		#auxList = []
-		for k in self.treekeyList[i:i+2]:
-			if k[1] == 'EC' and k[2] in ['고','지만','든지']:#등등
-				#auxList.append('ECC')
-				self.caseFlag0 = self.caseFlag0 + 'P'
-			else:
-				#auxList.append('ECS')
-				self.caseFlag0 = self.caseFlag0 + 'S'
-		#if len(auxList) == 1:
-		#	self.caseFlag0 = auxList[0][-1]
-		#else:
-		#	self.caseFlag0 = auxList[0][-1] + auxList[1][-1]
-	"""
-	def caseFlag1Gen(self, treekeyList, i):
-		#print '+++++++++++++++caseFlag1Gen+++++++++++++++++++'
-		#print self.treekeyList
-		#print self.tagToCmpnt
-		onlyForCount = None
-		for j in range(len(self.tagToCmpnt)):
-			if self.treekeyList[i][0]+1 == self.tagToCmpnt[j][1]:
-				self.auxListForCf1g = self.tagToCmpnt[:j+1]
-				print self.auxListForCf1g
-				break
-		for j in range(len(self.tagToCmpnt)):
-			try:
-				if self.treekeyList[i+1][0]+1 == self.tagToCmpnt[j][1]:
-					onlyForCount = self.tagToCmpnt[:j+1]
-					print onlyForCount
-					break
-			except IndexError:
-				onlyForCount = None
-
-		"""
-		onlyForCount = None
-		for j in range(len(self.tagToCmpnt)):
-			if self.treekeyList[i][0]+1 == self.tagToCmpnt[j][1]:
-				self.auxListForCf1g = self.tagToCmpnt[:j+1]
-				print self.auxListForCf1g
-				break
-		for j in range(len(self.tagToCmpnt)):
-			try:
-				if self.treekeyList[i+1][0]+1 == self.tagToCmpnt[j][1]:
-					onlyForCount = self.tagToCmpnt[:j+1]
-					print onlyForCount
-					break
-			except IndexError:
-				onlyForCount = None
-
-		flag10 = [item[2] for item in self.auxListForCf1g].count('NP_SBJ')
-		if onlyForCount == None:
-			flag11 = None
-		else:
-			flag11 = [item[2] for item in onlyForCount].count('NP_SBJ') - flag10
-
-		self.caseFlag1 = [flag10, flag11]
-		#print self.auxListForCf1g
-		"""
-	def writeScheme0(self, cddCmpntList):
+	
+	def writeScheme0(self, i):
 		print '++++++++++++++++writeScheme0+++++++++++++++++++'
-		#for y in self.taggedSen:
-		#	print y[0] + ' ' + y[1] + '    ',
-		#print '\n'
-		#for y in self.ejlisedSen:
-		#	print y[0] + ' ' + str(y[1]) + '   ',
-		#print '\n'
-		
+		for j in range(len(self.tagToCmpnt)):
+			if self.treekeyList[i][0]+1 == self.tagToCmpnt[j][1]:
+				cddCmpntList = self.tagToCmpnt[:j+1]
+				print cddCmpntList
+				break
+
 		cpTypeToken = self.taggedSen[cddCmpntList[-1][1]-2:cddCmpntList[-1][1]]
 		print cddCmpntList, " ", cpTypeToken
 		for x in cpTypeToken:
@@ -258,13 +184,12 @@ class treeGen():
 				cpType = str(x[1])
 		#print cpType		
 
-		print '_____Below is the place for your logs_____________\n\n'
+		print '\n\n_____Below is the place for your logs_____________\n\n'
 		# Case: cpType == 'ETN'
 		# 명사절
 		if cpType == 'ETN':
 			from tgCase1 import tgCase1
 			cpTypeCaseN = tgCase1(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
-
 		# Case: cpType == 'ETM'
 		# 관형절
 		elif cpType == 'ETM':
@@ -280,14 +205,14 @@ class treeGen():
 		# schemeIndex1: int
 		# cfmdCmpntList: list
 		#			e.g. :[0, 1, 'AP'], [1, 5, 'NP_AJT'], [5, 7, 'VP_MOD']
-		# schemeAnnex: dictionary
+		# schemeAnnex: dict
 		#			e.g. :{"case":"case1", "gita":"dd", "adjusted0":True}
 		schemeIndex0 = cpTypeCaseN.schemeIndex0
 		schemeIndex1 = cpTypeCaseN.schemeIndex1
 		cfmdCmpntList = cpTypeCaseN.cfmdCmpntList
 		schemeAnnex = cpTypeCaseN.schemeAnnex
 			
-		print '\n\n_____Above is the place for your logs_____________'
+		print '\n\n_____Above is the place for your logs_____________\n\n'
 		
 		self.schemeTemp = [cfmdCmpntList, schemeIndex0, schemeIndex1]
 		self.schemeAnnexList.append(schemeAnnex)
@@ -414,9 +339,9 @@ class treeGen():
 				i1 = j
 		#???
 		self.someVar = [self.schemeTemp[1], self.schemeTemp[2], cmpntToCmpnt[0][2]]
+		# update self.tagToCmpnt for next sequence
 		self.tagToCmpnt[i0:i1+1] = [self.someVar]
-		# 다음 시행에서 완성된 tagToCmpnt수정
-		print self.tagToCmpnt
+		
 
 	def writeScheme1(self, someVar):
 		print '++++++++++++++++writeScheme1++++++++++++++++++'
