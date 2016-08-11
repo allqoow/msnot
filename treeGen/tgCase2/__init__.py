@@ -8,38 +8,38 @@
 
 
 import re
+
+
 class tgCase2():
-	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken):
+	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken, sfGenerator):
 		print "저는 Case2를 맡고 있습니다!"		
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.db = db
 		self.cddCmpntList = cddCmpntList
 		self.cpTypeToken = cpTypeToken
+		self.sfGenerator = sfGenerator
 
 		self.schemeIndex0 = 0
 		self.schemeIndex1 = cddCmpntList[-1][1]
 		self.cfmdCmpntList = cddCmpntList
 		self.schemeAnnex = {"case":"case2", "alias":"CompleteSentence"}
 
-		self.process()
+		yongeonPart = self.cddCmpntList[-1]
+		self.sfGenerator.createSearchInputYongeon(yongeonPart)
+		self.sfGenerator.getSemanticFeature()
 		
+		for x in self.cddCmpntList:
+			if "NP" in x[2]:
+				cheeonPart = x
+				self.sfGenerator.createSearchInputCheeon(cheeonPart)
+				self.sfGenerator.getSemanticFeature()
+		self.process()
 
 	def process(self):
-		for x in self.taggedSen:
-			print x[0] + ' ' + str(x[1]) + '    ',
-		print '\n'
-		for x in self.ejlisedSen:
-			print x[0] + ' ' + str(x[1]) + '   ',
-		print '\n'
-		print self.cddCmpntList
-		print self.cpTypeToken
-
-		self.testSemanticAvail()
-
-		if self.semanticAvail == True:
-			pass
-		elif self.semanticAvail == False:
+		#self.semanticAnalysis = True
+		self.semanticAnalysis = False
+		if self.semanticAnalysis == False:
 			print '+++++++++++testSemanticAvail==False+++++++++++'
 			tList0 = [item[2] for item in self.cddCmpntList]
 			for x in tList0:
@@ -131,13 +131,3 @@ class tgCase2():
 				"""
 
 				print self.schemeAnnex
-
-
-	def testSemanticAvail(self):
-		print '+++++++++++testSemanticAvail++++++++++++++++++'
-		# some conditions e.g. there exists a db for semantic analysis
-		if True == False:
-			self.semanticAvail = True
-		# otherwise
-		else:
-			self.semanticAvail = False

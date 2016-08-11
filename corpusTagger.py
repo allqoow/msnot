@@ -19,7 +19,7 @@ class corpusTagger:
 		Komoran = Komoran()
 		for x in self.rawSenList:
 			# ejlisedSen
-			a = Komoran.pos(x,False)
+			a = Komoran.pos(x, False)
 			ejlisedSen = x.split()
 			pointer = 0
 			for i in range(len(a)):

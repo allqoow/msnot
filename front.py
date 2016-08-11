@@ -27,13 +27,15 @@ sys.setdefaultencoding('utf-8')
 
 #print sys.path
 #print sys.argv[1]
-userInput = str('나는 어제 너가 소개시켜준 식당에서 밥을 먹다가 바닥에 쓰러졌고 머리를 다쳤다.')
-
+userInput = str("망나니는 사슴이 발작한 장소에서 잠을 잤다.")
+#userInput = str('집에 가고서 아이스크림을 먹었다.')
+#userInput = str('강상훈 착하다.')
 host = msnotconfig.host
 user = msnotconfig.user
 password = msnotconfig.password
 dbname = msnotconfig.dbname
 db = _mysql.connect(host,user,password,dbname)
+db.query("set names utf8")
 ###################################################################
 
 
@@ -146,7 +148,7 @@ from treeGen import treeGen
 senInfos = zip(ejlisedSenList, taggedSenList)
 treeList = []
 for x in senInfos:
-	aTree = treeGen(x[0], x[1],db)
+	aTree = treeGen(x[0], x[1], driver, db)
 	treeList.append(aTree)
 ###################################################################
 print '<br>[Stage 4 finished: ' + str(time.time()-t0) + 's]<br>'

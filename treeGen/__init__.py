@@ -7,9 +7,10 @@
 # Project	: msnot
 
 class treeGen():
-	def __init__(self, ejlisedSen, taggedSen, db):
+	def __init__(self, ejlisedSen, taggedSen, driver, db):
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
+		self.driver = driver
 		self.db = db
 
 		self.treekeyList = []
@@ -185,21 +186,23 @@ class treeGen():
 		#print cpType		
 
 		print '\n\n_____Below is the place for your logs_____________\n\n'
+		from sfGen import sfGen
+		sfGenerator = sfGen(self.driver, self.db, self.taggedSen)
 		# Case: cpType == 'ETN'
 		# 명사절
 		if cpType == 'ETN':
 			from tgCase1 import tgCase1
-			cpTypeCaseN = tgCase1(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
+			cpTypeCaseN = tgCase1(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken, sfGenerator)
 		# Case: cpType == 'ETM'
 		# 관형절
 		elif cpType == 'ETM':
 			from tgCase2 import tgCase2
-			cpTypeCaseN = tgCase2(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
+			cpTypeCaseN = tgCase2(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken, sfGenerator)
 		# Case: cpType in ["EC,"EF"]
 		# 부사절, 서술절, 인용절
 		else:
 			from tgCase0 import tgCase0
-			cpTypeCaseN = tgCase0(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken)
+			cpTypeCaseN = tgCase0(self.ejlisedSen, self.taggedSen, self.db, cddCmpntList, cpTypeToken, sfGenerator)
 		# IMPORTANT! 
 		# schemeIndex0: int
 		# schemeIndex1: int

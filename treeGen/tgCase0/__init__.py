@@ -8,17 +8,29 @@
 
 import re
 class tgCase0():
-	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken):
+	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken, sfGenerator):
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.db = db
 		self.cddCmpntList = cddCmpntList
 		self.cpTypeToken = cpTypeToken
+		self.sfGenerator = sfGenerator
 
 		self.schemeIndex0 = 0
 		self.schemeIndex1 = cddCmpntList[-1][1]
 		self.cfmdCmpntList = cddCmpntList
 		self.schemeAnnex = {"case":"case0", "alias":"CompleteSentence"}
+
+		yongeonPart = self.cddCmpntList[-1]
+		self.sfGenerator.createSearchInputYongeon(yongeonPart)
+		self.sfGenerator.getSemanticFeature()
+		
+		for x in self.cddCmpntList:
+			if "NP" in x[2]:
+				cheeonPart = x
+				self.sfGenerator.createSearchInputCheeon(cheeonPart)
+				self.sfGenerator.getSemanticFeature()
+		self.process()
 
 		self.process()
 	def process(self):
