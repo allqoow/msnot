@@ -27,8 +27,7 @@ sys.setdefaultencoding('utf-8')
 
 #print sys.path
 #print sys.argv[1]
-userInput = str("망나니는 사슴이 발작한 장소에서 잠을 잤다.")
-#userInput = str('집에 가고서 아이스크림을 먹었다.')
+userInput = str('시험은 망했고 돈은 떨어졌기에 내 인생은 망했다.')
 #userInput = str('강상훈 착하다.')
 host = msnotconfig.host
 user = msnotconfig.user
@@ -113,9 +112,9 @@ partialTransListExt = []
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-driver = webdriver.Firefox()
+#driver = webdriver.Firefox()
 #driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
-#driver = webdriver.PhantomJS()  
+driver = webdriver.PhantomJS()  
 #driver.implicitly_wait(10)
 from subsWebBased import subsWebBased
 subsWebBased(driver)

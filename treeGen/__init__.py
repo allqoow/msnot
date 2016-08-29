@@ -5,23 +5,28 @@
 # Contact   : allqoow@gmail.com
 # Started on: 20160624(yyyymmdd)
 # Project	: msnot
+import re
 
 class treeGen():
 	def __init__(self, ejlisedSen, taggedSen, driver, db):
+		# input needed for generating this class
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.driver = driver
 		self.db = db
 
+		# output needed to be generated from class
 		self.treekeyList = []
 		self.schemeList = []
 		self.schemeAnnexList = []
 
+		# global varibles for process
 		self.adjustExt = 0
 		self.tagToCmpnt = []
 		self.cmpntToCmpnt = []
 		self.ttcPrevious = []
 
+		# process
 		self.treekeyListGen()
 		self.schemeListGen()
 
@@ -66,7 +71,7 @@ class treeGen():
 			
 			#print self.ttcPrevious
 			#print self.tagToCmpnt
-			print aa
+			#print aa
 			self.doStageTt(aa)
 			
 		# 합치면 안 되는 루프들입니다!!!	
@@ -79,7 +84,7 @@ class treeGen():
 		print self.schemeList
 	
 	def doStageTt(self, aa):
-		#print '++++++++++++++++++doStageTt+++++++++++++++++++'
+		print '++++++++++++++++++doStageTt+++++++++++++++++++'
 		queryPart0 = ''
 		queryPart1 = ''
 		memory0 = []
@@ -89,6 +94,42 @@ class treeGen():
 		tagToCmpnt = []
 		stepbwd = 0
 
+		print aa
+		index0 = len(aa)
+		index1 = len(aa)
+		isEvalVerb = True
+		#[[0, 2, 'NP_SBJ'], [2, 5, 'VP'], [5, 7, 'NP_SBJ'], [7, 10, 'VP'], [10, 11, 'X_AJT'], [11, 12, 'NP'], [12, 18, 'VP']]
+		while index0 >= 0:
+			evaluatedTag = aa[index0-1]
+			print index0, " ",index1
+
+			# else, componentise
+			if re.search(r"J[A-Z]+", evaluatedTag) != None or index0 == 0:				
+				tagToCmpntElem = [index0, index1]
+				if isEvalVerb == True:
+					tagToCmpntElem.append("VP")
+				else:
+					if aa[index1-1] == "JKS":
+						tagToCmpntElem.append("NP_SBJ")					
+					elif aa[index1-1] == "JKO":
+						tagToCmpntElem.append("NP_OBJ")
+					elif aa[index1-1] == "JKB":
+						tagToCmpntElem.append("NP_AJT")
+					elif aa[index1-1] == "JX":
+						tagToCmpntElem.append("NP_ADJ")
+				
+				index1 = index0
+				isEvalVerb = False
+				print tagToCmpntElem
+				self.tagToCmpnt.insert(0, tagToCmpntElem)
+			# move forward if not josa
+			elif re.search(r"J[A-Z]+", evaluatedTag) == None:
+				pass
+
+			index0 -= 1
+		print self.tagToCmpnt
+
+		"""
 		listExhaust = False
 		while listExhaust == False:			
 			sqlQueryCommon = "SELECT * FROM patterns_tt WHERE"
@@ -165,13 +206,15 @@ class treeGen():
 		for x in tagToCmpnt:
 			x[0] += self.adjustExt
 			x[1] += self.adjustExt
+		"""
 
 		self.tagToCmpnt = self.ttcPrevious + tagToCmpnt
 		self.ttcPrevious = self.tagToCmpnt
 		self.adjustExt += len(aa)
-	
+		
 	def writeScheme0(self, i):
 		print '++++++++++++++++writeScheme0+++++++++++++++++++'
+		print self.tagToCmpnt
 		for j in range(len(self.tagToCmpnt)):
 			if self.treekeyList[i][0]+1 == self.tagToCmpnt[j][1]:
 				cddCmpntList = self.tagToCmpnt[:j+1]

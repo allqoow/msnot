@@ -9,6 +9,7 @@
 import re
 class tgCase0():
 	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken, sfGenerator):
+		# input needed for generating this class
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.db = db
@@ -16,11 +17,14 @@ class tgCase0():
 		self.cpTypeToken = cpTypeToken
 		self.sfGenerator = sfGenerator
 
+		# output needed to be generated from class
 		self.schemeIndex0 = 0
 		self.schemeIndex1 = cddCmpntList[-1][1]
 		self.cfmdCmpntList = cddCmpntList
 		self.schemeAnnex = {"case":"case0", "alias":"CompleteSentence"}
 
+		# process
+		print "저는 Case0을 맡고 있습니다!"
 		yongeonPart = self.cddCmpntList[-1]
 		self.sfGenerator.createSearchInputYongeon(yongeonPart)
 		self.sfGenerator.getSemanticFeature()
@@ -32,9 +36,7 @@ class tgCase0():
 				self.sfGenerator.getSemanticFeature()
 		self.process()
 
-		self.process()
-	def process(self):
-		print "저는 Case0을 맡고 있습니다!"
+	def process(self):		
 		for x in self.taggedSen:
 			print x[0] + ' ' + str(x[1]) + '    ',
 		print '\n'
@@ -44,16 +46,34 @@ class tgCase0():
 		print self.cddCmpntList
 		print self.cpTypeToken
 
+		# clause ends with SF(comma)
+		if self.cpTypeToken[1][1] in ["SF","SP"]:
+			ecIndex = self.cddCmpntList[-1][1] -2
+		# clause ends with EC
+		#elif self.cpTypeToken[1][1] == "EC":
+		else:
+			ecIndex = self.cddCmpntList[-1][1] -1
 
-		auxList2 = []
-		self.schemeIndex0 = self.cddCmpntList[0][0]
-		self.auxList2 = self.cddCmpntList
-
-
+		print self.taggedSen[ecIndex][0]
+		# EC
+		# 나열
+		if self.taggedSen[ecIndex][0] in ["고","으며","면서","는다는지","다든가","든가"]:
+			self.schemeAnnex["alias"] = "Then,"
+		# 대립
+		elif self.taggedSen[ecIndex][0] in ["으나","거니","다는데","디","데도","는데도","고도"]:
+			self.schemeAnnex["alias"] = "However,"
+		# ECS
+		# 인과
+		elif self.taggedSen[ecIndex][0] in ["아서","어서","므로","기에","으니","니까","는지라",
+											"더니","느라고","는즉","길래","거늘","건데","고서는",
+											"고서야","길래","자마자","으므로","므로","어서는","어선",
+											"은바","어","어다가","라서","으므로서","으므로써","으니까","으니"]:
+			self.schemeAnnex["alias"] = "Therefore"
+		# 여기는 그냥 노가다 			
 		
-		auxList2 = []
-		self.schemeIndex0 = self.cddCmpntList[0][0]
-		self.auxList2 = self.cddCmpntList
+
+
+
 		"""
 		#print '+++++++++++++++caseFlag0Gen+++++++++++++++++++'
 		self.caseFlag0 = ''

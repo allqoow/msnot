@@ -12,7 +12,7 @@ import re
 
 class tgCase2():
 	def __init__(self, ejlisedSen, taggedSen, db, cddCmpntList, cpTypeToken, sfGenerator):
-		print "저는 Case2를 맡고 있습니다!"		
+		# input needed for generating this class
 		self.ejlisedSen = ejlisedSen
 		self.taggedSen = taggedSen
 		self.db = db
@@ -20,11 +20,14 @@ class tgCase2():
 		self.cpTypeToken = cpTypeToken
 		self.sfGenerator = sfGenerator
 
+		# output needed to be generated from class
 		self.schemeIndex0 = 0
 		self.schemeIndex1 = cddCmpntList[-1][1]
 		self.cfmdCmpntList = cddCmpntList
 		self.schemeAnnex = {"case":"case2", "alias":"CompleteSentence"}
 
+		# process
+		print "저는 Case2를 맡고 있습니다!"
 		yongeonPart = self.cddCmpntList[-1]
 		self.sfGenerator.createSearchInputYongeon(yongeonPart)
 		self.sfGenerator.getSemanticFeature()
