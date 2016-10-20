@@ -42,3 +42,4 @@ def atTermsNaver(searchWord, driver, re):
 
 # driver.get("https://translate.google.co.kr/")
 # searching from http://elaw.klri.re.kr/kor_service/main.do
+# http://elaw.klri.re.kr/kor_service/lawView.do?hseq=1&lang=ENG

@@ -6,6 +6,7 @@
 # Started on: 20160624(yyyymmdd)
 # Project   : msnot
 
+"""
 import _mysql
 import msnotconfig2
 host = msnotconfig2.host
@@ -36,3 +37,8 @@ while fetched:
 	fetched = result.fetch_row()
 	count += 1
 print count
+
+
+
+"""
+print 720*6*1300
